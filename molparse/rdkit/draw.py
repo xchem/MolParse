@@ -113,6 +113,7 @@ def draw_mcs(
     align_substructure: bool = True,
     verbose: bool = False,
     show_mcs=True,
+    highlight: bool = True,
     highlight_common: bool = True,
     **kwargs,
 ):
@@ -160,13 +161,16 @@ def draw_mcs(
                 inverted.append(index)
         return tuple(inverted)
 
-    if not highlight_common:
-        matches = [inverse_indices(mol, mol.GetSubstructMatch(mcs_mol)) for mol in mols]
-    else:
-        matches = [mol.GetSubstructMatch(mcs_mol) for mol in mols]
+    if highlight:
+        if not highlight_common:
+            matches = [
+                inverse_indices(mol, mol.GetSubstructMatch(mcs_mol)) for mol in mols
+            ]
+        else:
+            matches = [mol.GetSubstructMatch(mcs_mol) for mol in mols]
 
-    if show_mcs:
-        matches = [""] + matches
+        if show_mcs:
+            matches = [""] + matches
 
     subms = [x for x in smarts_and_mols if x.HasSubstructMatch(mcs_mol)]
 
@@ -176,9 +180,12 @@ def draw_mcs(
         for m in subms:
             _ = AllChem.GenerateDepictionMatching2DStructure(m, mcs_mol)
 
-    drawing = Draw.MolsToGridImage(
-        smarts_and_mols, highlightAtomLists=matches, legends=legends
-    )
+    if highlight:
+        drawing = Draw.MolsToGridImage(
+            smarts_and_mols, highlightAtomLists=matches, legends=legends
+        )
+    else:
+        drawing = Draw.MolsToGridImage(smarts_and_mols, legends=legends)
 
     if verbose:
         return drawing, mcs_smarts, mcs_mol, mols
