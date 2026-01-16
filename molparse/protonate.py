@@ -1,5 +1,5 @@
 import mrich as logger
-
+from pathlib import Path
 
 def protonate(
     sys: "System",
@@ -7,6 +7,7 @@ def protonate(
     pH: float = 7.8,
     remove_residues: list[str] | None = ["DMS", "TRS", "LIG", "CL"],
     trim_terminal_residues: int = 0,
+    out_file: str | Path = None,
     return_file: bool = False,
 ) -> "System | str":
     """Protonate a system using pdbfixer and openmm
@@ -15,6 +16,7 @@ def protonate(
     :param minimise: Perform an energy minimisation?
     :param pH: System pH
     :param remove_residues: list of residue names to remove
+    :param out_file: write the protonated PDB here
     :param trim_terminal_residues: number of residues to trim from each end of all protein chains
     :returns: Output :class:`.System`
     """
@@ -123,10 +125,19 @@ def protonate(
 
     # close files
     pdb_orig.close()
-
+    
+    if out_file:
+        pdb_out = Path(out_file)
+        assert pdb_out.name.endswith(".pdb")
+        logger.writing(pdb_out)
+        sys.write(pdb_out, verbosity=0)
+        
     if return_file:
-        pdb_out = NamedTemporaryFile(mode="w+t", suffix=".pdb")
-        sys.write(pdb_out.name, verbosity=0)
-        return sys, pdb_out
-
+        if out_file:
+            return sys, pdb_out
+        else:
+            pdb_out = NamedTemporaryFile(mode="w+t", suffix=".pdb").name
+            sys.write(pdb_out.name, verbosity=0)
+            return sys, pdb_out
+        
     return sys
