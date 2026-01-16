@@ -120,7 +120,10 @@ class System(AtomGroup):
         alpha = float(alpha)
         beta = float(beta)
         gamma = float(gamma)
-        z = int(z)
+        if z:
+            z = int(z)
+        else:
+            z = "    "
 
         CRYST1 = f"CRYST1{a:9.3f}{b:9.3f}{c:9.3f}{alpha:7.2f}{beta:7.2f}{gamma:7.2f} {space_group:<10} {z:>4}\n"
 
