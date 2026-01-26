@@ -4,7 +4,7 @@ from pathlib import Path
 def protonate(
     sys: "System",
     minimise: bool = False,
-    pH: float = 7.8,
+    pH: float = 7.0,
     remove_residues: list[str] | None = ["DMS", "TRS", "LIG", "CL"],
     trim_terminal_residues: int = 0,
     out_file: str | Path = None,
@@ -22,7 +22,7 @@ def protonate(
     """
 
     from .amber import prep4amber
-    from .io import parsePDB
+    from .io import parsePDB, writePDB
     from openmm.app import PME, ForceField, Modeller, PDBFile, Simulation
     from tempfile import NamedTemporaryFile
     from pdbfixer import PDBFixer
@@ -47,7 +47,8 @@ def protonate(
     pdb_prot = NamedTemporaryFile(mode="w+t", suffix=".pdb")
 
     # write the original
-    orig_sys.write(pdb_orig.name, verbosity=0)
+    writePDB(pdb_orig.name, orig_sys, verbosity=0)
+    # writePDB("orig.pdb", orig_sys, verbosity=0)
 
     # fix the PDB termini and hydrogens
     fixer = PDBFixer(pdb_orig.name)
@@ -66,16 +67,53 @@ def protonate(
 
     fixer.addMissingHydrogens(pH)
     PDBFile.writeFile(fixer.topology, fixer.positions, pdb_prot)
-    # PDBFile.writeFile(fixer.topology, fixer.positions, "pdb_prot.pdb")
+    # PDBFile.writeFile(fixer.topology, fixer.positions, "prot.pdb")
 
     if minimise:
 
+        # openmm implementation is sensitive...
+
         pdb_mini = NamedTemporaryFile(mode="w+t", suffix=".pdb")
+
+        # from rdkit import Chem
+        # from rdkit.Chem import AllChem
+        
+        # mol = Chem.MolFromPDBFile(pdb_prot.name, removeHs=False)
+        # # Chem.SanitizeMol(mol, sanitizeOps=Chem.SanitizeFlags.SANITIZE_NONE)
+        # # mol = Chem.AddHs(mol, addCoords=False)
+        # # mol.UpdatePropertyCache(strict=False)
+        
+        # # use 'MMFF94s' for biopolymers; fall back to UFF if unavailable
+        # try:
+        #     mp = AllChem.MMFFGetMoleculeProperties(mol, mmffVariant='MMFF94s')
+        # except Exception as e:
+        #     logger.warning(e)
+        #     mp = None
+        #     raise
+            
+        # if mp is not None:
+        #     ff = AllChem.MMFFGetMoleculeForceField(mol, mp, confId=0)
+        # else:
+        #     logger.warning("MMFF not available. Falling back to UFF")
+        #     ff = AllChem.UFFGetMoleculeForceField(mol, confId=0)
+        
+        # for atom in mol.GetAtoms():
+        #     if atom.GetAtomicNum() != 1:   # fix all heavy atoms
+        #         ff.AddFixedPoint(atom.GetIdx())
+        
+        # ff.Minimize(maxIts=1_000)
+        # Chem.MolToPDBFile(mol, pdb_mini.name)
+        # Chem.MolToPDBFile(mol, "mini.pdb")
 
         # openmm objects
         pdb = PDBFile(pdb_prot.name)
-        forcefield = ForceField("amber99sb.xml", "tip3p.xml")
+        
+        # forcefield = ForceField("amber99sb.xml", "tip3p.xml")
+        forcefield = ForceField("amber14-all.xml")
+
         modeller = Modeller(pdb.topology, pdb.positions)
+
+        modeller.addHydrogens(pH=pH)
 
         # prepare the simulation
         system = forcefield.createSystem(modeller.topology, nonbondedMethod=PME)
