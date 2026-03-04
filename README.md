@@ -1,4 +1,4 @@
-![MolParse](https://github.com/mwinokan/MolParse/blob/master/graphics/molparse-01.png?raw=true)
+![MolParse](https://github.com/xchem/MolParse/blob/master/graphics/molparse-01.png?raw=true)
 
 ![GitHub Tag](https://img.shields.io/github/v/tag/mwinokan/molparse?include_prereleases&label=PyPI&link=https%3A%2F%2Fpypi.org%2Fproject%2Fmolparse%2F)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mwinokan/molparse/python-publish.yml?label=publish&link=https%3A%2F%2Fgithub.com%2Fmwinokan%2FMolParse%2Factions%2Fworkflows%2Fpython-publish.yml)
@@ -12,9 +12,9 @@ A python package for parsing, modifying, and analysis of molecular structure fil
 
 ## Installation
 
-Easiest way to install is from [PyPI](https://pypi.org/project/MolParse/):
+Easiest way to install is from [PyPI](https://pypi.org/project/xchem-molparse/):
 
-`pip install molparse`
+`pip install xchem-molparse`
 
 ## Usage
 
@@ -49,7 +49,7 @@ the following to open an interactive plotly graph of an xvg:
 
 `molxvg [FILE.xvg] -s`
 
-![moltree](https://github.com/mwinokan/MolParse/blob/master/graphics/molxvg.png?raw=true)
+![moltree](https://github.com/xchem/MolParse/blob/master/graphics/molxvg.png?raw=true)
 
 Other options can be found by running `molxvg --help`.
 
@@ -75,6 +75,6 @@ Other options can be found by running `molxvg --help`.
 
 ### MolParse
 
-* `git clone https://github.com/mwinokan/MolParse.git`
+* `git clone https://github.com/xchem/MolParse.git`
 * Add `export MOLPARSE=/path/to/directory` to your `.bash_profile`
 * Add `export PYTHONPATH=$PYTHONPATH:$MOLPARSE` to your `.bash_profile`
