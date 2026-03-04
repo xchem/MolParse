@@ -1,20 +1,19 @@
-![MolParse](https://github.com/mwinokan/MolParse/blob/master/graphics/molparse-01.png?raw=true)
+![MolParse](https://github.com/xchem/MolParse/blob/master/graphics/molparse-01.png?raw=true)
 
-![GitHub Tag](https://img.shields.io/github/v/tag/mwinokan/molparse?include_prereleases&label=PyPI&link=https%3A%2F%2Fpypi.org%2Fproject%2Fmolparse%2F)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mwinokan/molparse/python-publish.yml?label=publish&link=https%3A%2F%2Fgithub.com%2Fmwinokan%2FMolParse%2Factions%2Fworkflows%2Fpython-publish.yml)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mwinokan/molparse/black.yaml?label=lint&link=https%3A%2F%2Fgithub.com%2Fmwinokan%2FMolParse%2Factions%2Fworkflows%2Fblack.yaml)
-[![Documentation Status](https://readthedocs.org/projects/hippo-db/badge/?version=latest)](https://molparse.winokan.com/en/latest/?badge=latest)
-![GitHub last commit](https://img.shields.io/github/last-commit/mwinokan/molparse)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/mwinokan/molparse)
+![GitHub Tag](https://img.shields.io/github/v/tag/xchem/molparse?include_prereleases&label=PyPI&link=https%3A%2F%2Fpypi.org%2Fproject%2Fmolparse%2F)
+![release](https://img.shields.io/github/actions/workflow/status/xchem/molparse/release.yaml?label=release&link=https%3A%2F%2Fgithub.com%2Fxchem%2FMolParse%2Factions%2Fworkflows%2Frelease.yaml)
+![lint](https://img.shields.io/github/actions/workflow/status/xchem/molparse/lint.yaml?label=lint&link=https%3A%2F%2Fgithub.com%2Fxchem%2FMolParse%2Factions%2Fworkflows%2Flint.yaml)
+
+
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A python package for parsing, modifying, and analysis of molecular structure files.
 
 ## Installation
 
-Easiest way to install is from [PyPI](https://pypi.org/project/MolParse/):
+Easiest way to install is from [PyPI](https://pypi.org/project/xchem-molparse/):
 
-`pip install molparse`
+`pip install xchem-molparse`
 
 ## Usage
 
@@ -37,7 +36,7 @@ PDB or GRO file as follows:
 
 `moltree <FILE>`
 
-![moltree](https://github.com/mwinokan/MolParse/blob/master/graphics/moltree.png?raw=true)
+![moltree](https://github.com/xchem/MolParse/blob/master/graphics/moltree.png?raw=true)
 
 Use the mouse to interact with buttons and CTR-C to exit.
 
@@ -49,7 +48,7 @@ the following to open an interactive plotly graph of an xvg:
 
 `molxvg [FILE.xvg] -s`
 
-![moltree](https://github.com/mwinokan/MolParse/blob/master/graphics/molxvg.png?raw=true)
+![moltree](https://github.com/xchem/MolParse/blob/master/graphics/molxvg.png?raw=true)
 
 Other options can be found by running `molxvg --help`.
 
@@ -75,6 +74,6 @@ Other options can be found by running `molxvg --help`.
 
 ### MolParse
 
-* `git clone https://github.com/mwinokan/MolParse.git`
+* `git clone https://github.com/xchem/MolParse.git`
 * Add `export MOLPARSE=/path/to/directory` to your `.bash_profile`
 * Add `export PYTHONPATH=$PYTHONPATH:$MOLPARSE` to your `.bash_profile`
